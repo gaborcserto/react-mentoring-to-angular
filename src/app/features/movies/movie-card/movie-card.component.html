@@ -1,0 +1,51 @@
+<div class="card">
+  <div class="card__image__wrapper">
+    <div
+      class="card__hover-btn"
+      (click)="toggleMenu()"
+      tabIndex="0"
+      role="button"
+      aria-label="Menu">
+    </div>
+    <!--app-image-with-fallback--
+      [src]="moviePosterPath"
+      [alt]="movieTitle"
+      class="card__image">
+    </app-image-with-fallback-->
+    <!--img [src]="moviePosterPath" [alt]="movieTitle" class="card__image" (error)="setDefaultPic()"-->
+  </div>
+  <div class="card__footer">
+    <div class="card__footer__part">
+      <a
+        [routerLink]="['/movie', movieId]"
+        [queryParams]="{filter: filter, sorting: sort}"
+        class="card__title">
+        {{ movieTitle }}
+      </a>
+      <p class="card__type" [innerHTML]="movieGenres"></p>
+    </div>
+    <div class="card__footer__part">
+      <p class="card__date">{{ movieReleaseYear }}</p>
+    </div>
+  </div>
+  <div *ngIf="isMenuOpen" class="card__menu">
+    <button
+      class="card__menu__close"
+      (click)="closeMenu()"
+      type="button">
+      ✖
+    </button>
+    <button
+      class="card__menu__btn"
+      (click)="openModal('edit')"
+      type="button">
+      Edit
+    </button>
+    <button
+      class="card__menu__btn"
+      (click)="openModal('delete')"
+      type="button">
+      Delete
+    </button>
+  </div>
+</div>

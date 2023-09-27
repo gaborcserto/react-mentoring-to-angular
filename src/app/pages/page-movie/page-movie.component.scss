@@ -1,0 +1,9 @@
+@use '../../../assets/scss/index' as *;
+
+:host {
+  align-items: stretch;
+  display: flex;
+  flex-direction: column;
+  font-family: Montserrat, sans-serif;
+  min-height: 100vh;
+}

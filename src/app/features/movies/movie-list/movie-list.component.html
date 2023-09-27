@@ -1,0 +1,23 @@
+<section class="list__container container">
+  <div *ngIf="error">
+    {{ error }}
+  </div>
+
+  <div *ngIf="amount">
+    <h2 class="list__number">
+      <strong>{{ amount }}</strong> movies found
+    </h2>
+  </div>
+
+  <div class="list__items" *ngIf="movies && movies.length">
+    <ng-container *ngFor="let movie of moviesData">
+    <app-movie-card
+      [movieId]="movie.id"
+      [movieTitle]="movie.title"
+      [moviePosterPath]="movie.poster_path"
+      [movieGenres]="movie.genreLinks"
+      [movieReleaseYear]="movie.releaseYear"
+      ></app-movie-card>
+    </ng-container>
+  </div>
+</section>
