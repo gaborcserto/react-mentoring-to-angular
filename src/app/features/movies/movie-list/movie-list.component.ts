@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { Movies, Movie } from "../../../services/movie/movie.interface";
-import { MovieService } from "../../../services/movie/movie.service";
-import { catchError } from 'rxjs/operators';
-import { of } from 'rxjs';
+import {Component, OnInit} from '@angular/core';
+import {Movie} from "../../../services/movie/movie.interface";
+import {MovieService} from "../../../services/movie/movie.service";
+import {catchError} from 'rxjs/operators';
+import {of} from 'rxjs';
 
 @Component({
   selector: 'app-movie-list',
@@ -15,7 +15,8 @@ export class MovieListComponent implements OnInit {
   error: string | null = null;
   sort: string = 'title';
 
-  constructor(private movieService: MovieService) { }
+  constructor(private movieService: MovieService) {
+  }
 
   getGenreLinks(genres: string[]): string {
     return genres.map(genre => `<a [routerLink]="[]" [queryParams]="?filter=${genre.toLowerCase().replace(/ /g, '+')}&sorting=${this.sort}">${genre}</a>`).join(', ');
@@ -34,9 +35,9 @@ export class MovieListComponent implements OnInit {
   ngOnInit(): void {
     this.movieService.getMovies()
       .pipe(
-        catchError(err => {
+        catchError(() => {
           this.error = 'Error fetching movies';
-          return of({ data: [], totalAmount: 0, offset: 0, limit: 0 });
+          return of({data: [], totalAmount: 0, offset: 0, limit: 0});
         })
       )
       .subscribe(

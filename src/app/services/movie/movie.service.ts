@@ -26,7 +26,20 @@ export class MovieService {
     return this.http.get<Movies>(`${this.apiUrl}/movies`, { params });
   }
 
-  getMovie(id: number): Observable<Movies> {
-    return this.http.get<Movies>(`${this.apiUrl}/movies/${id}`);
+  getMovie(id: number): Observable<Movie> {
+    return this.http.get<Movie>(`${this.apiUrl}/movies/${id}`);
+  }
+
+  createMovie(data: Movie): Observable<Movie> {
+
+    return this.http.post<Movie>(`${this.apiUrl}/movies`, data);
+  }
+
+  updateMovie(data: Movie): Observable<Movie> {
+    return this.http.put<Movie>(`${this.apiUrl}/movies`, data);
+  }
+
+  deleteMovie(id: number): Observable<Movie> {
+    return this.http.delete<Movie>(`${this.apiUrl}/movies/${id}`);
   }
 }
