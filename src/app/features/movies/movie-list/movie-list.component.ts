@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {Movie} from "../../../services/movie/movie.interface";
-import {MovieService} from "../../../services/movie/movie.service";
-import {catchError} from 'rxjs/operators';
-import {of} from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { Movie } from '../../../services/movie/movie.interface';
+import { MovieService } from '../../../services/movie/movie.service';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-movie-list',

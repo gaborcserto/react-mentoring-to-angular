@@ -26,7 +26,7 @@ export class MovieService {
     return this.http.get<Movies>(`${this.apiUrl}/movies`, { params });
   }
 
-  getMovie(id: number): Observable<Movie> {
+  getMovie(id: string): Observable<Movie> {
     return this.http.get<Movie>(`${this.apiUrl}/movies/${id}`);
   }
 
@@ -39,7 +39,7 @@ export class MovieService {
     return this.http.put<Movie>(`${this.apiUrl}/movies`, data);
   }
 
-  deleteMovie(id: number): Observable<Movie> {
+  deleteMovie(id: string): Observable<Movie> {
     return this.http.delete<Movie>(`${this.apiUrl}/movies/${id}`);
   }
 }
