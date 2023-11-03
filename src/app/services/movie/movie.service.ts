@@ -14,13 +14,13 @@ export class MovieService {
   constructor(private http: HttpClient) { }
 
   getMovies(urlParams?: URLParams): Observable<Movies> {
-    let params = new HttpParams().set('searchBy', 'title').set('sortOrder', 'asc');
+    let params: URLParams = new HttpParams().set('searchBy', 'title').set('sortOrder', 'asc');
 
     if (urlParams) {
       params = params
-        .set('search', urlParams.search ? urlParams.search : '')
-        .set('sortBy', urlParams.sort ? urlParams.sort : '')
-        .set('filter', urlParams.genres ? urlParams.genres.join(',') : '');
+        .set('search', urlParams.search ?? '')
+        .set('sortBy', urlParams.sort ?? '')
+        .set('filter', urlParams.genres ? JSON.stringify(urlParams.genres) : '');
     }
 
     return this.http.get<Movies>(`${this.apiUrl}/movies`, { params });
@@ -31,7 +31,6 @@ export class MovieService {
   }
 
   createMovie(data: Movie): Observable<Movie> {
-
     return this.http.post<Movie>(`${this.apiUrl}/movies`, data);
   }
 

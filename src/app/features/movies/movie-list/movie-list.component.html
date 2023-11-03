@@ -1,23 +1,35 @@
 <section class="list__container container">
-  <div *ngIf="error">
-    {{ error }}
-  </div>
+  <ng-container *ngIf="error; else movieList">
+    <div>
+      {{ error }}
+    </div>
+  </ng-container>
 
-  <div *ngIf="amount">
-    <h2 class="list__number">
-      <strong>{{ amount }}</strong> movies found
-    </h2>
-  </div>
+  <ng-template #movieList>
+    <ng-container *ngIf="movieData$ | async as movieData">
+      <div *ngIf="movieData.amount" class="list__number">
+        <h2>
+          <strong>{{ movieData.amount }}</strong> movies found
+        </h2>
+      </div>
 
-  <div class="list__items" *ngIf="movies && movies.length">
-    <ng-container *ngFor="let movie of moviesData">
-    <app-movie-card
-      [movieId]="movie.id"
-      [movieTitle]="movie.title"
-      [moviePosterPath]="movie.poster_path"
-      [movieGenres]="movie.genreLinks"
-      [movieReleaseYear]="movie.releaseYear"
-      ></app-movie-card>
+      <div class="list__items" *ngIf="movieData.movies.length; else noMovies">
+        <ng-container *ngFor="let movie of movieData.movies">
+          <app-movie-card
+            [movieId]="movie.id"
+            [movieTitle]="movie.title"
+            [moviePosterPath]="movie.poster_path"
+            [movieGenres]="getGenreLinks(movie.genres)"
+            [movieReleaseYear]="movie.release_date.substring(0, 4)"
+          ></app-movie-card>
+        </ng-container>
+      </div>
     </ng-container>
-  </div>
+  </ng-template>
+
+  <ng-template #noMovies>
+    <div>
+      No movies to display.
+    </div>
+  </ng-template>
 </section>

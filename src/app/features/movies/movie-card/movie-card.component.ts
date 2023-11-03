@@ -1,12 +1,13 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-movie-card',
   templateUrl: './movie-card.component.html',
   styleUrls: ['./movie-card.component.scss']
 })
-export class MovieCardComponent implements OnInit  {
+export class MovieCardComponent implements OnInit, OnDestroy {
   @Input() movieId!: number;
   @Input() movieTitle!: string;
   @Input() moviePosterPath!: string;
@@ -17,19 +18,22 @@ export class MovieCardComponent implements OnInit  {
   filter: string | null = null;
   sort: string | null = null;
 
-  defaultPic: string = '../../../../static/noimage.png';
-
-  setDefaultPic() {
-    this.moviePosterPath = this.defaultPic;
-  }
-
   constructor(
     private router: Router,
     private route: ActivatedRoute
   ) { }
 
+  private queryParamsSubscription!: Subscription;
+
+  setErrorImage(event: Event) {
+    const element = event.target as HTMLImageElement; // Cast to the correct type
+    if (element) {
+      element.src = '/assets/img/noimage.png';
+    }
+  }
+
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
+    this.queryParamsSubscription = this.route.queryParams.subscribe(params => {
       this.filter = params['filter'];
       this.sort = params['sorting'];
     });
@@ -47,5 +51,11 @@ export class MovieCardComponent implements OnInit  {
   openModal(type: string): void {
     // this.store.dispatch({ type: '[Modal] Set Open', payload: true });
     // this.store.dispatch({ type: '[Modal] Set Type', payload: type });
+  }
+
+  ngOnDestroy(): void {
+    if (this.queryParamsSubscription) {
+      this.queryParamsSubscription.unsubscribe();
+    }
   }
 }

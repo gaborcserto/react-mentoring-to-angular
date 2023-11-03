@@ -15,7 +15,6 @@ import { AppComponent } from './app.component';
 import { MovieListComponent } from './features/movies/movie-list/movie-list.component';
 import { MovieCardComponent } from './features/movies/movie-card/movie-card.component';
 import { NgOptimizedImage } from "@angular/common";
-import { ImageWithFallbackComponent } from './shared/components/image-with-fallback/image-with-fallback.component';
 import { MovieDetailsComponent } from './features/movies/movie-details/movie-details.component';
 
 @NgModule({
@@ -30,7 +29,6 @@ import { MovieDetailsComponent } from './features/movies/movie-details/movie-det
     MainComponent,
     MovieListComponent,
     MovieCardComponent,
-    ImageWithFallbackComponent,
     MovieDetailsComponent,
     MovieCardComponent
   ],

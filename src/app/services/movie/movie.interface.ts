@@ -1,4 +1,6 @@
-export interface URLParams {
+import { HttpParams } from "@angular/common/http";
+
+export interface URLParams extends HttpParams {
   search?: string;
   sort?: string;
   genres?: string[];

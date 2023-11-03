@@ -7,12 +7,7 @@
       role="button"
       aria-label="Menu">
     </div>
-    <!--app-image-with-fallback--
-      [src]="moviePosterPath"
-      [alt]="movieTitle"
-      class="card__image">
-    </app-image-with-fallback-->
-    <!--img [src]="moviePosterPath" [alt]="movieTitle" class="card__image" (error)="setDefaultPic()"-->
+    <img [src]="moviePosterPath" [alt]="movieTitle" (error)="setErrorImage($event)" class="card__image">
   </div>
   <div class="card__footer">
     <div class="card__footer__part">
