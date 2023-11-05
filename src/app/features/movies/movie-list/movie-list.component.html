@@ -19,7 +19,7 @@
             [movieId]="movie.id"
             [movieTitle]="movie.title"
             [moviePosterPath]="movie.poster_path"
-            [movieGenres]="getGenreLinks(movie.genres)"
+            [movieGenres]="movie.genres"
             [movieReleaseYear]="movie.release_date.substring(0, 4)"
           ></app-movie-card>
         </ng-container>

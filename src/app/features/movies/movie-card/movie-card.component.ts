@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { MovieService } from "../../../services/movie/movie.service";
 
 @Component({
@@ -9,10 +10,12 @@ import { MovieService } from "../../../services/movie/movie.service";
   styleUrls: ['./movie-card.component.scss']
 })
 export class MovieCardComponent implements OnInit, OnDestroy {
+  movieId$: Observable<string | null>;
+  queryParams$: Observable<any>;
   @Input() movieId!: number;
   @Input() movieTitle!: string;
   @Input() moviePosterPath!: string;
-  @Input() movieGenres!: string;
+  @Input() movieGenres!: string[];
   @Input() movieReleaseYear!: string;
 
   isMenuOpen = false;
@@ -23,12 +26,48 @@ export class MovieCardComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private movieService: MovieService
-  ) { }
+  ) {
+    this.movieId$ = this.route.paramMap.pipe(
+      map(params => params.get('movieId'))
+    );
+
+    // Get the current search query parameters
+    this.queryParams$ = this.route.queryParamMap.pipe(
+      map(params => {
+        const queryParams: any = {};
+        const filter = params.get('filter');
+        const sorting = params.get('sorting');
+
+        if (filter) queryParams.filter = filter;
+        if (sorting) queryParams.sorting = sorting;
+
+        return queryParams;
+      })
+    );
+
+  }
 
   private queryParamsSubscription!: Subscription;
 
   setErrorImage(event: Event) {
     this.movieService.getErrorImage(event);
+  }
+
+  getLink(genre: string, sorting?: string): Observable<{path: string[], queryParams: any}> {
+    return this.movieId$.pipe(
+      map(movieId => {
+        const path = movieId ? ['/movie', movieId] : ['/search'];
+
+        return this.queryParams$.pipe(
+          map(existingParams => {
+            const queryParams = {...existingParams, filter: genre.toLowerCase().replace(/ /g, '+')};
+            if (sorting) queryParams.sorting = sorting;
+            return { path, queryParams };
+          })
+        );
+      }),
+      switchMap(val => val)
+    );
   }
 
   ngOnInit(): void {

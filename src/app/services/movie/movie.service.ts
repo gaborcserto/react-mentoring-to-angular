@@ -20,10 +20,6 @@ export class MovieService {
     }
   }
 
-  getCreateGenreLinks(genres: string[], sort?: string): string {
-    return genres.map(genre => `<a [routerLink]="[]" [queryParams]="?filter=${genre.toLowerCase().replace(/ /g, '+')}&sorting=${sort}">${genre}</a>`).join(', ');
-  }
-
   getMovies(urlParams?: URLParams): Observable<Movies> {
     let params: URLParams = new HttpParams().set('searchBy', 'title').set('sortOrder', 'asc');
 

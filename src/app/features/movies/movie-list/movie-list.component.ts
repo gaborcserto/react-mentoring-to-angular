@@ -19,9 +19,9 @@ export class MovieListComponent {
     this.getList();
   }
 
-  getGenreLinks(genres: string[]): string {
+  /*getGenreLinks(genres: string[]): string {
     return this.movieService.getCreateGenreLinks(genres, this.sort);
-  }
+  }*/
 
   getList() {
     this.moviesData$ = this.movieService.getMovies().pipe(

@@ -17,7 +17,16 @@
         class="card__title">
         {{ movieTitle }}
       </a>
-      <p class="card__type" [innerHTML]="movieGenres"></p>
+      <p class="card__type">
+        <ng-container *ngFor="let genre of movieGenres; let isLast = last">
+          <ng-container *ngIf="getLink(genre) | async as linkInfo">
+            <span>
+              <a class="card__type__link" [routerLink]="linkInfo.path"
+                 [queryParams]="linkInfo.queryParams">{{ genre }}</a>{{!isLast ? ',' : ''}}
+            </span>
+          </ng-container>
+        </ng-container>
+      </p>
     </div>
     <div class="card__footer__part">
       <p class="card__date">{{ movieReleaseYear }}</p>
