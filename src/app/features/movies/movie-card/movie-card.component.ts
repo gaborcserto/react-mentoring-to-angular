@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { MovieService } from "../../../services/movie/movie.service";
 
 @Component({
   selector: 'app-movie-card',
@@ -20,16 +21,14 @@ export class MovieCardComponent implements OnInit, OnDestroy {
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private movieService: MovieService
   ) { }
 
   private queryParamsSubscription!: Subscription;
 
   setErrorImage(event: Event) {
-    const element = event.target as HTMLImageElement; // Cast to the correct type
-    if (element) {
-      element.src = '/assets/img/noimage.png';
-    }
+    this.movieService.getErrorImage(event);
   }
 
   ngOnInit(): void {

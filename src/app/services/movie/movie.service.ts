@@ -13,6 +13,17 @@ export class MovieService {
 
   constructor(private http: HttpClient) { }
 
+  getErrorImage(event: Event) {
+    const element = event.target as HTMLImageElement; // Cast to the correct type
+    if (element) {
+      element.src = '/assets/img/noimage.png';
+    }
+  }
+
+  getCreateGenreLinks(genres: string[], sort?: string): string {
+    return genres.map(genre => `<a [routerLink]="[]" [queryParams]="?filter=${genre.toLowerCase().replace(/ /g, '+')}&sorting=${sort}">${genre}</a>`).join(', ');
+  }
+
   getMovies(urlParams?: URLParams): Observable<Movies> {
     let params: URLParams = new HttpParams().set('searchBy', 'title').set('sortOrder', 'asc');
 

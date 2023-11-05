@@ -6,15 +6,15 @@
   </ng-container>
 
   <ng-template #movieList>
-    <ng-container *ngIf="movieData$ | async as movieData">
-      <div *ngIf="movieData.amount" class="list__number">
+    <ng-container *ngIf="moviesData$ | async as moviesData">
+      <div *ngIf="moviesData.amount" class="list__number">
         <h2>
-          <strong>{{ movieData.amount }}</strong> movies found
+          <strong>{{ moviesData.amount }}</strong> movies found
         </h2>
       </div>
 
-      <div class="list__items" *ngIf="movieData.movies.length; else noMovies">
-        <ng-container *ngFor="let movie of movieData.movies">
+      <div class="list__items" *ngIf="moviesData.movies.length; else noMovies">
+        <ng-container *ngFor="let movie of moviesData.movies">
           <app-movie-card
             [movieId]="movie.id"
             [movieTitle]="movie.title"

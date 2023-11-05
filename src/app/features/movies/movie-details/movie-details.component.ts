@@ -1,7 +1,7 @@
-import {Component, OnInit, Input, inject} from '@angular/core';
+import { Component, inject, OnDestroy } from '@angular/core';
 import { catchError} from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router'
-import { of } from "rxjs";
+import { Observable, of, Subscription } from "rxjs";
 import { Movie } from '../../../services/movie/movie.interface';
 import { MovieService } from '../../../services/movie/movie.service';
 
@@ -10,28 +10,36 @@ import { MovieService } from '../../../services/movie/movie.service';
   templateUrl: './movie-details.component.html',
   styleUrls: ['./movie-details.component.scss']
 })
-export class MovieDetailsComponent implements OnInit {
-  private route = inject(ActivatedRoute);
+export class MovieDetailsComponent implements OnDestroy{
+  private subscription = new Subscription();
+  movieData$: Observable<Movie | null> | undefined;
   error: string | null = null;
 
-  constructor(private movieService: MovieService) {
+  constructor(
+    private movieService: MovieService,
+    private route: ActivatedRoute,
+  ) {
+    this.subscription.add(
+      this.route.params.subscribe(params => {
+        this.getDetails(params['movieId']);
+      })
+    );
   }
-  ngOnInit(): void {
-    const id = String(this.route.snapshot.paramMap.get('movieId'));
-    if (id) {
-      console.log(id);
-    }
 
-    this.movieService.getMovie(id)
-      .pipe(
-        catchError(() => {
-          this.error = 'Error fetching movies';
-          return of({});
-        })
-      )
-      .subscribe(
-        movieData => {
-        }
-      );
+  setErrorImage(event: Event) {
+    this.movieService.getErrorImage(event);
+  }
+
+  getDetails(movieId: string) {
+    this.movieData$ = this.movieService.getMovie(movieId).pipe(
+      catchError(error => {
+        this.error = 'Movies not found';
+        return of(null);
+      })
+    );
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }
