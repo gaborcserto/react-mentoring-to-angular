@@ -8,20 +8,27 @@
         search
       </a>
     </div>
-    <div class="movie-details__container">
-      <img [src]="movieDetails.poster_path" [alt]="movieDetails.title" (error)="setErrorImage($event)" class="movie-details__image" />
-      <div class="movie-details__content">
-        <div class="movie-details__title__wrapper">
-          <h2 class="movie-details__title">{{ movieDetails.title }}</h2>
-          <div class="movie-details__rating">{{ movieDetails.vote_average }}</div>
+    <ng-template #movieDetailsTemplate>
+      <div class="movie-details__container">
+        <img [src]="movieDetails.poster_path" [alt]="movieDetails.title" (error)="setErrorImage($event)" class="movie-details__image" />
+        <div class="movie-details__content">
+          <div class="movie-details__title__wrapper">
+            <h2 class="movie-details__title">{{ movieDetails.title }}</h2>
+            <div class="movie-details__rating">{{ movieDetails.vote_average }}</div>
+          </div>
+          <div class="movie-details__genre">{{ movieDetails.genres.join(', ') }}</div>
+          <div class="movie-details__data">
+            <span class="movie-details__year">{{ movieDetails.release_date | date: 'yyyy' }}</span>
+            <span>{{ movieDetails.runtime }} min</span>
+          </div>
+          <div class="movie-details__overview">{{ movieDetails.overview }}</div>
         </div>
-        <div class="movie-details__genre">{{ movieDetails.genres.join(', ') }}</div>
-        <div class="movie-details__data">
-          <span class="movie-details__year">{{ movieDetails.release_date | date: 'yyyy' }}</span>
-          <span>{{ movieDetails.runtime }} min</span>
-        </div>
-        <div class="movie-details__overview">{{ movieDetails.overview }}</div>
       </div>
-    </div>
+    </ng-template>
+    <ng-container *ngIf="error; else movieDetailsTemplate">
+        <div class="movie-details__container movie-details__container--error">
+        <div>{{ error }}</div>
+        </div>
+    </ng-container>
   </div>
 </header>
