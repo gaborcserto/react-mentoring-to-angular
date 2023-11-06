@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { sortOptions, genresFilter } from '../../../data';
 import { FormControl } from '@angular/forms';
@@ -10,11 +10,11 @@ import { FormControl } from '@angular/forms';
 })
 export class FilterComponent implements OnInit {
   selectedOption = new FormControl('title');
-  sortOptions = sortOptions;
-  genresFilter = genresFilter;
-  filter: string | null = null;
-  sort: string | null = null;
-  movieId: number | null = null;
+  @Input() sortOptions = sortOptions;
+  @Input() genresFilter = genresFilter;
+  @Input() filter: string | null = null;
+  @Input() sort: string | null = null;
+  @Input() movieId: number | null = null;
 
   constructor(private route: ActivatedRoute, private router: Router) {}
 

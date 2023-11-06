@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Movie, Movies, URLParams } from '../../../services/movie/movie.interface';
-import { MovieService } from '../../../services/movie/movie.service';
-import { catchError } from 'rxjs/operators';
-import { of, Observable, map } from 'rxjs';
+import {Component} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {Movie, Movies, URLParams} from '../../../services/movie/movie.interface';
+import {MovieService} from '../../../services/movie/movie.service';
+import {catchError} from 'rxjs/operators';
+import {map, Observable, of} from 'rxjs';
 
 @Component({
   selector: 'app-movie-list',
@@ -15,12 +15,12 @@ export class MovieListComponent {
   amount: number = 0;
   error: string | null = null;
   sort: string = 'title';
+  filter: string | null = null;
 
   constructor(
     private movieService: MovieService,
     private route: ActivatedRoute
   ) {
-    // Listen to query param changes
     this.route.queryParams.subscribe(params => {
       const urlParams: any = {};
 
@@ -36,8 +36,10 @@ export class MovieListComponent {
         const genresArray = params['filter'].split(',');
         if (genresArray.length > 0) {
           urlParams.genres = genresArray;
+          this.filter = params['filter'];
+        } else {
+          this.filter = null;
         }
-        console.log(urlParams.genres)
       }
 
       this.getList(urlParams);

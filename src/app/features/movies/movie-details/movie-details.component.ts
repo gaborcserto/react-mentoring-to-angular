@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { catchError} from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router'
 import { Observable, of, Subscription } from "rxjs";
@@ -12,8 +12,8 @@ import { MovieService } from '../../../services/movie/movie.service';
 })
 export class MovieDetailsComponent implements OnDestroy{
   private subscription = new Subscription();
-  movieData$: Observable<Movie | null> | undefined;
-  error: string | null = null;
+  @Input() movieData$: Observable<Movie | null> | undefined;
+  @Input() error: string | null = null;
 
   constructor(
     private movieService: MovieService,

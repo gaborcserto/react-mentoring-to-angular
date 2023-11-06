@@ -10,6 +10,9 @@
       <div *ngIf="moviesData.amount" class="list__number">
         <h2>
           <strong>{{ moviesData.amount }}</strong> movies found
+          <span *ngIf="filter">
+            in genre: <strong class="genre">{{ filter }}</strong>
+          </span>
         </h2>
       </div>
 
