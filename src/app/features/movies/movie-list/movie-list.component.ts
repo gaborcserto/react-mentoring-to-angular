@@ -36,10 +36,10 @@ export class MovieListComponent {
         const genresArray = params['filter'].split(',');
         if (genresArray.length > 0) {
           urlParams.genres = genresArray;
-          this.filter = params['filter'];
-        } else {
-          this.filter = null;
         }
+        this.filter = params['filter'];
+      } else {
+        this.filter = null;
       }
 
       this.getList(urlParams);
