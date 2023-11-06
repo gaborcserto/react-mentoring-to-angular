@@ -12,11 +12,13 @@
       </button>
     </div>
     <h1 class="header__title">FIND YOUR MOVIE</h1>
-    <form class="header__search" onSubmit={handleFormSubmit}>
+    <form class="header__search" (ngSubmit)="handleFormSubmit($event)">
       <input
         class="header__search__input"
         type="text"
         placeholder="What do you want to watch?"
+        [(ngModel)]="searchQuery"
+        name="search"
       />
       <button class="btn--primary btn" type="submit">
         search
