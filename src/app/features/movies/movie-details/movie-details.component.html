@@ -1,4 +1,4 @@
-<header class="header header--movie-details" *ngIf="movieData$ | async as movieDetails">
+<header class="header header--movie-details">
   <div class="movie-details container">
     <div class="movie-details__top">
       <a routerLink="/search" class="movie-details__brand brand">
@@ -8,7 +8,22 @@
         search
       </a>
     </div>
-    <ng-template #movieDetailsTemplate>
+    <ng-container *ngIf="movieData$ | async as movieDetails; else errorTemplate">
+      <ng-container *ngIf="movieDetails; else loadingTemplate">
+        <ng-container *ngTemplateOutlet="movieDetailsTemplate; context: {$implicit: movieDetails}"></ng-container>
+      </ng-container>
+    </ng-container>
+    <ng-template #errorTemplate>
+      <div class="movie-details__container movie-details__container--error">
+        <div>{{ error }}</div>
+      </div>
+    </ng-template>
+    <ng-template #loadingTemplate>
+      <div class="movie-details__container movie-details__container--loading">
+        Loading...
+      </div>
+    </ng-template>
+    <ng-template #movieDetailsTemplate let-movieDetails>
       <div class="movie-details__container">
         <img [src]="movieDetails.poster_path" [alt]="movieDetails.title" (error)="setErrorImage($event)" class="movie-details__image" />
         <div class="movie-details__content">
@@ -25,10 +40,5 @@
         </div>
       </div>
     </ng-template>
-    <ng-container *ngIf="error; else movieDetailsTemplate">
-        <div class="movie-details__container movie-details__container--error">
-        <div>{{ error }}</div>
-        </div>
-    </ng-container>
   </div>
 </header>

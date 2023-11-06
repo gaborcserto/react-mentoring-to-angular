@@ -12,7 +12,7 @@ import { MovieService } from '../../../services/movie/movie.service';
 })
 export class MovieDetailsComponent implements OnDestroy{
   private subscription = new Subscription();
-  movieData$: Observable<Movie> | undefined;
+  movieData$: Observable<Movie | null> | undefined;
   error: string | null = null;
 
   constructor(
@@ -34,21 +34,7 @@ export class MovieDetailsComponent implements OnDestroy{
     this.movieData$ = this.movieService.getMovie(movieId).pipe(
       catchError(error => {
         this.error = 'Movies not found';
-        return of({
-            title: '',
-            tagline: '',
-            vote_average: 0,
-            vote_count: 0,
-            release_date: '',
-            poster_path: '',
-            overview: '',
-            budget: 0,
-            revenue: 0,
-            runtime: 0,
-            genres: [],
-            id: 0,
-          }
-        );
+        return of(null);
       })
     );
   }
