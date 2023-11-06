@@ -16,6 +16,7 @@ import { MovieListComponent } from './features/movies/movie-list/movie-list.comp
 import { MovieCardComponent } from './features/movies/movie-card/movie-card.component';
 import { NgOptimizedImage } from "@angular/common";
 import { MovieDetailsComponent } from './features/movies/movie-details/movie-details.component';
+import { FilterComponent } from './components/filter/filter.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { MovieDetailsComponent } from './features/movies/movie-details/movie-det
     MovieListComponent,
     MovieCardComponent,
     MovieDetailsComponent,
-    MovieCardComponent
+    MovieCardComponent,
+    FilterComponent
   ],
   imports: [
     BrowserModule,

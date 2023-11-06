@@ -1,0 +1,20 @@
+<nav class="menu container">
+  <div class="menu__filters">
+    <a
+      [routerLink]="'/'"
+      [queryParams]="{ sorting: sort }"
+      class="menu__link"
+      [class.menu__link--active]="!filter"
+    >All</a>
+    <a *ngFor="let genre of genresFilter"
+       [routerLink]="getRouterLink(genre)"
+       [queryParams]="{ filter: genre, sorting: sort }"
+       class="menu__link"
+       [class.menu__link--active]="filter === genre">
+      {{ genre }}
+    </a>
+  </div>
+  <div class="menu__short">
+    <p class="menu__short__label">Sort by</p>
+  </div>
+</nav>

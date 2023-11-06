@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { Movies, Movie, URLParams} from "./movie.interface";
+import { Movies, Movie, URLParams } from "./movie.interface";
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,7 @@ export class MovieService {
   constructor(private http: HttpClient) { }
 
   getErrorImage(event: Event) {
-    const element = event.target as HTMLImageElement; // Cast to the correct type
+    const element = event.target as HTMLImageElement;
     if (element) {
       element.src = '/assets/img/noimage.png';
     }
@@ -26,9 +26,10 @@ export class MovieService {
     if (urlParams) {
       params = params
         .set('search', urlParams.search ?? '')
-        .set('sortBy', urlParams.sort ?? '')
-        .set('filter', urlParams.genres ? JSON.stringify(urlParams.genres) : '');
+        .set('sortBy', urlParams.sort ?? 'title')
+        .set('filter', urlParams.genres ? urlParams.genres.join(',') : '');
     }
+    console.log(params)
 
     return this.http.get<Movies>(`${this.apiUrl}/movies`, { params });
   }

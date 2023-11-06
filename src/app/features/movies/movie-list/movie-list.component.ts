@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { Movie, Movies } from '../../../services/movie/movie.interface';
+import { ActivatedRoute } from '@angular/router';
+import { Movie, Movies, URLParams } from '../../../services/movie/movie.interface';
 import { MovieService } from '../../../services/movie/movie.service';
 import { catchError } from 'rxjs/operators';
 import { of, Observable, map } from 'rxjs';
@@ -15,12 +16,36 @@ export class MovieListComponent {
   error: string | null = null;
   sort: string = 'title';
 
-  constructor(private movieService: MovieService) {
-    this.getList();
+  constructor(
+    private movieService: MovieService,
+    private route: ActivatedRoute
+  ) {
+    // Listen to query param changes
+    this.route.queryParams.subscribe(params => {
+      const urlParams: any = {};
+
+      if (params['search']) {
+        urlParams.search = params['search'];
+      }
+
+      if (params['sortBy'] && params['sortBy'] !== 'title') {
+        urlParams.sort = params['sortBy'];
+      }
+
+      if (params['filter']) {
+        const genresArray = params['filter'].split(',');
+        if (genresArray.length > 0) {
+          urlParams.genres = genresArray;
+        }
+        console.log(urlParams.genres)
+      }
+
+      this.getList(urlParams);
+    });
   }
 
-  getList() {
-    this.moviesData$ = this.movieService.getMovies().pipe(
+  getList(urlParams?: URLParams) {
+    this.moviesData$ = this.movieService.getMovies(urlParams).pipe(
       catchError(error => {
         this.error = 'Error fetching movies';
         return of({
