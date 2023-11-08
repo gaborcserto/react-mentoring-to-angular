@@ -6,7 +6,7 @@
   </ng-container>
 
   <ng-template #movieList>
-    <ng-container *ngIf="moviesData$ | async as moviesData">
+    <ng-container *ngIf="movieList$ | async as moviesData">
       <div *ngIf="moviesData.amount" class="list__number">
         <h2>
           <strong>{{ moviesData.amount }}</strong> movies found

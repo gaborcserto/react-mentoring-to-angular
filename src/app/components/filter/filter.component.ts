@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { sortOptions, genresFilter } from '../../../data';
 import { FormControl } from '@angular/forms';
@@ -30,9 +30,15 @@ export class FilterComponent implements OnInit {
     });
 
     this.selectedOption.valueChanges.subscribe(value => {
-      this.handleSelectChange(value);
+      if (value !== null) {
+        this.handleSelectChange(value);
+      }
     });
   }
+
+  /*onValueChange(newValue: string): void {
+    this.change.emit(newValue);// Emit the new value
+  }*/
 
   getReplace(text: string): string {
     return text.replace(/_/g, ' ');
@@ -42,10 +48,10 @@ export class FilterComponent implements OnInit {
     return this.movieId ? ['/movie', this.movieId] : ['/search'];
   }
 
-  handleSelectChange(selected: string | null) {
+  handleSelectChange(selectedValue: string): void {
     this.router.navigate([], {
       relativeTo: this.route,
-      queryParams: {sorting: selected || null, filter: this.filter},
+      queryParams: { sorting: selectedValue, filter: this.filter },
       queryParamsHandling: 'merge',
     }).then();
   }
@@ -54,7 +60,9 @@ export class FilterComponent implements OnInit {
     return this.selectedOption.value;
   }
 
-  set selected(val) {
-    this.selectedOption.setValue(val);
-  }
+  /*set selected(val: string | null) {
+    if (val !== null) {
+      this.selectedOption.setValue(val);
+    }
+  }*/
 }

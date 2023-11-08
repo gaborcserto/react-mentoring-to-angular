@@ -16,5 +16,11 @@
   </div>
   <div class="menu__short">
     <p class="menu__short__label">Sort by</p>
+    <app-custom-select
+      [options]="sortOptions"
+      [selected]="selected || ''"
+      (valueChange)="handleSelectChange($event)"
+      styleName="menu__short__select"
+    ></app-custom-select>
   </div>
 </nav>

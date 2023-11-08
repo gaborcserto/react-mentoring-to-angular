@@ -1,0 +1,27 @@
+<div
+  [id]="styleId"
+  [ngClass]="getWrapperClasses()"
+>
+  <div
+    class="custom-select__header"
+    (click)="toggling()"
+    tabindex="0"
+  >
+    {{ (selectedOptions ?? []).join(', ') || placeholder }}
+  </div>
+  <div *ngIf="isOpen" class="custom-select__container">
+    <div class="custom-select">
+      <div
+        *ngFor="let option of options"
+        (click)="onOptionClicked(option)"
+        tabindex="0"
+        [ngClass]="{
+          'custom-select__item': true,
+          'custom-select__item--selected': isSelected(option)
+        }"
+      >
+        {{ option }}
+      </div>
+    </div>
+  </div>
+</div>

@@ -60,7 +60,7 @@ export class MovieCardComponent implements OnInit, OnDestroy {
 
         return this.queryParams$.pipe(
           map(existingParams => {
-            const queryParams = {...existingParams, filter: genre.toLowerCase().replace(/ /g, '+')};
+            const queryParams = {...existingParams, filter: this.encodeGenre(genre)};
             if (sorting) queryParams.sorting = sorting;
             return { path, queryParams };
           })
@@ -68,6 +68,10 @@ export class MovieCardComponent implements OnInit, OnDestroy {
       }),
       switchMap(val => val)
     );
+  }
+
+  encodeGenre(genre: string): string {
+    return genre.toLowerCase().replace(/ /g, '+');
   }
 
   ngOnInit(): void {

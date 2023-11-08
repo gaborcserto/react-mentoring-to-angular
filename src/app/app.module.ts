@@ -17,7 +17,10 @@ import { MovieCardComponent } from './features/movies/movie-card/movie-card.comp
 import { NgOptimizedImage } from "@angular/common";
 import { MovieDetailsComponent } from './features/movies/movie-details/movie-details.component';
 import { FilterComponent } from './components/filter/filter.component';
-import {FormsModule} from "@angular/forms";
+import { FormsModule } from "@angular/forms";
+import { CustomSelectComponent } from './components/custom-select/custom-select.component';
+import { UrlSerializer } from '@angular/router';
+import { CustomUrlSerializer } from './customUrlSerializer';
 
 @NgModule({
   declarations: [
@@ -33,7 +36,8 @@ import {FormsModule} from "@angular/forms";
     MovieCardComponent,
     MovieDetailsComponent,
     MovieCardComponent,
-    FilterComponent
+    FilterComponent,
+    CustomSelectComponent
   ],
   imports: [
     BrowserModule,
@@ -42,7 +46,7 @@ import {FormsModule} from "@angular/forms";
     NgOptimizedImage,
     FormsModule
   ],
-  providers: [],
+  providers: [{ provide: UrlSerializer, useClass: CustomUrlSerializer }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
