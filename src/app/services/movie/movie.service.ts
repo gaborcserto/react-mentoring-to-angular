@@ -26,6 +26,7 @@ export class MovieService {
         const urlParams: any = {};
 
         urlParams.searchBy = params['searchBy'] ?? 'title';
+        urlParams.sortBy = params['sortBy'] ?? 'title'
         urlParams.sortOrder = params['sortOrder'] ?? 'asc'
         urlParams.search = params['search'] ?? '';
         urlParams.sort = params['sortBy'] ?? 'title';
@@ -67,8 +68,9 @@ export class MovieService {
     }
   }
 
-  getMovies(urlParams?: URLParams): Observable<Movies> {
-    let params: URLParams = urlParams ?? new HttpParams();
+  getMovies(urlParams: URLParams): Observable<Movies> {
+    const params: URLParams = urlParams;
+    console.log(params);
     return this.http.get<Movies>(`${this.apiUrl}/movies/`, { params });
   }
 
