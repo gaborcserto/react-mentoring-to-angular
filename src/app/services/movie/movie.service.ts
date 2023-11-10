@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Movies, Movie, URLParams } from "./movie.interface";
 import { ActivatedRoute } from "@angular/router";
-import { map, switchMap, of } from 'rxjs';
+import { map, switchMap, of, tap } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable({
@@ -60,6 +60,17 @@ export class MovieService {
     }))
   );
 
+ /* public movieData$ = this.router.paramMap.pipe(
+    tap(params => console.log('Movie ID:', params.get('movieId'))),
+    switchMap(params => {
+      const movieId = params.get('movieId');
+      return movieId ? this.getMovie(movieId) : of(null);
+    }),
+    catchError(error => {
+      this.error = 'Error fetching movie details';
+      return of(null);
+    })
+  );*/
 
   getErrorImage(event: Event) {
     const element = event.target as HTMLImageElement;
@@ -70,11 +81,11 @@ export class MovieService {
 
   getMovies(urlParams: URLParams): Observable<Movies> {
     const params: URLParams = urlParams;
-    console.log(params);
     return this.http.get<Movies>(`${this.apiUrl}/movies/`, { params });
   }
 
   getMovie(id: string): Observable<Movie> {
+    console.log(id)
     return this.http.get<Movie>(`${this.apiUrl}/movies/${id}`);
   }
 
